@@ -104,7 +104,21 @@ public class HotelReservationSystem {
         System.out.println("Reservation registered successfully!");
 
     }
-    private static void listReservations() {}
+
+    private static void listReservations() {
+        if (reservationCount == 0){
+            System.out.println("There are no reservations registered!");
+            return;
+        }
+
+        System.out.println("\n=== Hotel Reservations Registered ===");
+
+        for(int i = 0; i < reservationCount; i++){
+            System.out.println((reservations[i].toString()));
+        }
+    }
+
+
     private static void searchReservation() {}
     private static void sortReservations() {}
 }

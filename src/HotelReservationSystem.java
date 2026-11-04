@@ -1,9 +1,8 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 public class HotelReservationSystem {
-    private static int capacity = 10;
-    private static Reservation[] reservations = new Reservation[capacity];
+    private static int CAPACITY = 10;
+    private static Reservation[] reservations = new Reservation[CAPACITY];
     private static int reservationCount = 0;
     private static Scanner input = new Scanner(System.in);
 
@@ -53,12 +52,12 @@ public class HotelReservationSystem {
 
     private static void addReservation() {
 
-        if(reservationCount >= capacity) {
+        if(reservationCount >= CAPACITY) {
             System.out.println("The reservation system is full!");
             return;
         }
 
-        System.out.println("Enter Guest Name: ");
+        System.out.println("Enter guest name: ");
         String guestName = input.nextLine().trim();
 
         while(guestName.isEmpty()){
@@ -66,7 +65,7 @@ public class HotelReservationSystem {
             guestName = input.nextLine().trim();
         }
 
-        System.out.println("Enter Room type: ");
+        System.out.println("Enter room type: ");
         String roomType = input.nextLine().trim();
 
         while(roomType.isEmpty()){
@@ -87,7 +86,7 @@ public class HotelReservationSystem {
         do{
             System.out.println("Enter the daily rate: R$ ");
             dailyRate = Double.parseDouble(input.nextLine());
-            if(dailyRate < 0){
+            if(dailyRate <= 0){
                 System.out.println("The daily rate must be greater than zero.");
             }
         }while(dailyRate <= 0);
@@ -107,12 +106,11 @@ public class HotelReservationSystem {
     }
 
     private static void listReservations() {
-        if (reservationCount == 0){
-            System.out.println("There are no reservations registered!");
+        if (hasNoReservations()) {
             return;
         }
 
-        System.out.println("\n=== Hotel Reservations Registered ===");
+        System.out.println("\n=== Registered Hotel Reservations ===");
 
         for(int i = 0; i < reservationCount; i++){
             System.out.println((reservations[i].toString()));
@@ -120,8 +118,7 @@ public class HotelReservationSystem {
     }
 
     private static void searchReservation() {
-        if (reservationCount == 0){
-            System.out.println("There are no reservations registered!");
+        if (hasNoReservations()) {
             return;
         }
 
@@ -147,11 +144,41 @@ public class HotelReservationSystem {
         }
 
         if(!found){
-            System.out.println("There is no reservation with that guest name.");
+            System.out.println("No reservations found for that guest.");
         }
     }
 
     private static void sortReservations() {
+        if (hasNoReservations()) {
+            return;
+        }
 
+        bubbleSortDesc();
+
+        System.out.println("\n=== Reservations Sorted by Number of Days ===");
+
+        for(int i = 0; i < reservationCount; i++){
+            System.out.println(reservations[i].toString());
+        }
+    }
+
+    private static boolean hasNoReservations(){
+        if(reservationCount == 0){
+            System.out.println("There are no reservations registered!");
+            return true;
+        }
+        return false;
+    }
+
+    private static void bubbleSortDesc() {
+        for (int i = 0; i < reservationCount - 1; i++) {
+            for (int j = 0; j < reservationCount - 1 - i; j++) {
+                if (reservations[j].getNumberOfDays() < reservations[j + 1].getNumberOfDays()) {
+                    Reservation temp = reservations[j];
+                    reservations[j] = reservations[j + 1];
+                    reservations[j + 1] = temp;
+                }
+            }
+        }
     }
 }

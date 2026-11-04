@@ -1,3 +1,4 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class HotelReservationSystem {
@@ -118,7 +119,39 @@ public class HotelReservationSystem {
         }
     }
 
+    private static void searchReservation() {
+        if (reservationCount == 0){
+            System.out.println("There are no reservations registered!");
+            return;
+        }
 
-    private static void searchReservation() {}
-    private static void sortReservations() {}
+        String guestName = "";
+        do{
+            System.out.println("Enter Guest Name: ");
+            guestName = input.nextLine().trim();
+
+            if(guestName.isEmpty()){
+                System.out.println("Name cannot be empty.");
+            }
+        }while(guestName.isEmpty());
+
+        System.out.println("\n=== Search Results ===");
+
+        boolean found = false;
+
+        for(int i = 0; i < reservationCount; i++){
+            if (reservations[i].getGuestName().toLowerCase().contains(guestName.toLowerCase())){
+                System.out.println((reservations[i].toString()));
+                found = true;
+            }
+        }
+
+        if(!found){
+            System.out.println("There is no reservation with that guest name.");
+        }
+    }
+
+    private static void sortReservations() {
+
+    }
 }
